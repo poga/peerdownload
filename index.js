@@ -8,7 +8,7 @@ const normalize = require('normalize-url')
 const toBlobURL = require('stream-to-blob-url')
 const path = require('path')
 
-var hub = signalhub('peerdownload', ['https://signalhub.mafintosh.com'])
+var hub = signalhub(`peerdownload-${signature(window.location.href)}`, ['https://signalhub.mafintosh.com'])
 var drive = hyperdrive(memdb())
 
 var fileHashes = {}
@@ -41,7 +41,6 @@ function hook () {
 }
 
 function download (fileURL) {
-  console.log(fileURL)
   if (fileHashes[signature(fileURL)]) {
     // if it's a known file in fileHashes, use peerdownload
     var archive = drive.createArchive(fileHashes[signature(fileURL)])
